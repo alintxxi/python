@@ -22,7 +22,6 @@ while game_is_on:
 
     car_manager.create_car()
     car_manager.move_cars()
-    scoreboard.update_scoreboard()
 
     # Detect collision with car.
     for car in car_manager.all_cars:
@@ -34,6 +33,7 @@ while game_is_on:
     if player.is_at_finish_line():
         player.go_to_start()
         car_manager.level_up()
+        scoreboard.increase_scoreboard()
 
 
 
