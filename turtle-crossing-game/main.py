@@ -30,5 +30,11 @@ while game_is_on:
             game_is_on = False
             scoreboard.game_over()
 
+    # Detect collision with finished line
+    if player.is_at_finish_line():
+        player.go_to_start()
+        car_manager.level_up()
+
+
 
 screen.exitonclick()
