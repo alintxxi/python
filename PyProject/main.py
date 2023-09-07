@@ -1,4 +1,5 @@
-from turtle import Screen, Turtle
+from turtle import Screen
+from paddle import Paddle
 
 screen = Screen()
 screen.setup(800, 600)
@@ -6,25 +7,14 @@ screen.bgcolor("black")
 screen.title("P⚪NG")
 screen.tracer(0)
 
-
-paddle = Turtle()
-paddle.shape("square")
-paddle.shapesize(stretch_len=1, stretch_wid=5)
-paddle.color("white")
-paddle.penup()
-paddle.goto(350, 0)
-
-def up():
-    new_y = paddle.ycor() + 20
-    paddle.goto(paddle.xcor(),new_y)
-
-def down():
-    new_y = paddle.ycor() - 20
-    paddle.goto(paddle.xcor(),new_y)
+r_paddle = Paddle((350, 0))
+l_paddle = Paddle((-350, 0))
 
 screen.listen()
-screen.onkey(up,"Up")
-screen.onkey(down,"Down")
+screen.onkey(r_paddle.up, "Up")
+screen.onkey(r_paddle.down, "Down")
+screen.onkey(l_paddle.up, "w")
+screen.onkey(l_paddle.down, "s")
 
 game_is_on = True
 while game_is_on:
