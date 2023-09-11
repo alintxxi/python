@@ -23,4 +23,10 @@
 import pandas
 
 data = pandas.read_csv("weather-data.csv")
-data["temp"]
+# temp_list = data["temp"].to_list()
+# avg = sum(temp_list) / len(temp_list)
+
+monday = data[data.day == "Monday"]
+# (0°C × 9/5) + 32 = 32°F
+monday_temp_f = (monday.temp * 9 / 5) + 32
+print(monday_temp_f)
