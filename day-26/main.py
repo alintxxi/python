@@ -39,13 +39,22 @@
 
 # # ___[Interactive Coding Exercise] Data Overlap_______________________________________
 
-with open("file1.txt") as file1:
-    data1 = file1.readlines()
-with open("file2.txt") as file2:
-    data2 = file2.readlines()
-result = [int(num) for num in data1 if num in data2 ]
-print(result)
+# with open("file1.txt") as file1:
+#     data1 = file1.readlines()
+# with open("file2.txt") as file2:
+#     data2 = file2.readlines()
+# result = [int(num) for num in data1 if num in data2 ]
+# print(result)
+#
+# result = [int(num) for num in open("file1.txt") if num in open("file2.txt")]
+# print(result)
 
-result = [int(num) for num in open("file1.txt") if num in open("file2.txt")]
-print(result)
+# # ___How to use Dictionary Comprehension______________________________________________
 
+import random
+
+names = ["Alex", "Beth", "Caroline", "Dave", "Eleanor", "Freddie"]
+students_score = {student: random.randint(1, 100) for student in names}
+print(students_score)
+passed_students = {student: score for (student, score) in students_score.items() if score >= 60}
+print(passed_students)
