@@ -51,10 +51,20 @@
 
 # # ___How to use Dictionary Comprehension______________________________________________
 
-import random
+# import random
+#
+# names = ["Alex", "Beth", "Caroline", "Dave", "Eleanor", "Freddie"]
+# students_score = {student: random.randint(1, 100) for student in names}
+# print(students_score)
+# passed_students = {student: score for (student, score) in students_score.items() if score >= 60}
+# print(passed_students)
 
-names = ["Alex", "Beth", "Caroline", "Dave", "Eleanor", "Freddie"]
-students_score = {student: random.randint(1, 100) for student in names}
-print(students_score)
-passed_students = {student: score for (student, score) in students_score.items() if score >= 60}
-print(passed_students)
+# # ___[Interactive Coding Exercise] Dictionary Comprehension 1_________________________
+
+sentence = "What is the Airspeed Velocity of an Unladen Swallow?"
+# Don't Change code above
+
+# Write your code below:
+result = {word: len(word) for (word) in sentence.split()}
+
+print(result)
