@@ -1,4 +1,4 @@
-# File Not Fond
+# # File Not Fond
 
 try:
     file = open("a_file.txt")
@@ -15,3 +15,14 @@ else:  # When all of "try" section goes successfully then jump to this section.
 finally:  # Run no matter what happened.
     file.close()
     print("File was closed.")
+
+# # 003 Raising your own Exceptions
+
+height = float(input("Height: "))
+weight = int(input("Weight: "))
+
+if height > 3:
+    raise ValueError("Human Height should not be over 3 meters.")
+
+bmi = weight / height ** 2
+print(bmi)
