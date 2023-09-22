@@ -1,89 +1,69 @@
-from tkinter import *
-from tkinter import messagebox
-from random import choice, randint, shuffle
-import pyperclip
-import json
+# # Day 30 - Intermediate - Errors, Exceptions and JSON Data Improving the Password
+# # 001 Day 30 Goals what you will make by the end of the day
+# # 002 Catching Exceptions The try catch except finally Pattern
+# # FileNotFond
 
+# try:
+#     file = open("a_file.txt")
+#     a_dictionary = {"key": "value"}
+#     print(a_dictionary["sdsafs"])  # after 2 times run the code then change "sdsafs" to "key" and run again
+# except FileNotFoundError:
+#     file = open("a_file.txt", "w")
+#     file.write("something")
+# except KeyError as error_message:
+#     print(f"The key {error_message} does not exist.")
+# else:  # When all of "try" section goes successfully then jump to this section.
+#     content = file.read()
+#     print(content)
+# finally:  # Run no matter what happened.
+#     file.close()
+#     print("File was closed.")
 
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
-def generate_password():
-    password_entry.delete(0, END)
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-               'v',
-               'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-               'R',
-               'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
-    password_letters = [choice(letters) for _ in range(randint(8, 10))]
-    password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
-    password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
-    password_list = password_letters + password_numbers + password_symbols
-    shuffle(password_list)
-    password = "".join(password_list)
-    # password = ""
-    # for char in password_list:
-    #     password += char
-    password_entry.insert(0, password)
-    pyperclip.copy(password)
+# # 003 Raising your own Exceptions
 
+# height = float(input("Height: "))
+# weight = int(input("Weight: "))
+#
+# if height > 3:
+#     raise ValueError("Human Height should not be over 3 meters.")
+#
+# bmi = weight / height ** 2
+# print(bmi)
 
-# ---------------------------- SAVE PASSWORD ------------------------------- #
-def save():
-    website = website_entry.get()
-    username = username_entry.get()
-    password = password_entry.get()
-    new_data = {
-        website: {
-            "username": username,
-            "password": password,
-        }
-    }
+# # 004 [Interactive Coding Exercise] IndexError Handling
 
-    if len(website) == 0 or len(password) == 0:
-        messagebox.showinfo(title="Oops", message="Please don't leave any fields empty!")
-    else:
-        with open("data.json", "r") as data_file:
-            # Reading old data
-            data = json.load(data_file)
-            # Updating old data with new data
-            data.update(new_data)
+# fruits = ["Apple", "Pear", "Orange"]
+#
+#
+# # TODO: Catch the exception and make sure the code runs without crashing.
+# def make_pie(index):
+#     try:
+#         fruit = fruits[index]
+#     except IndexError:
+#         print("Fruit pie")
+#     else:
+#         print(fruit + " pie")
+#
+#
+# make_pie(4)
 
-        with open("data.json", "w") as data_file:
-            # Saving updated data
-            json.dump(data, data_file, indent=4)
+# # 005 [Interactive Coding Exercise] KeyError Handling
 
-            website_entry.delete(0, END)
-            password_entry.delete(0, END)
+facebook_posts = [
+    {'Likes': 21, 'Comments': 2},
+    {'Likes': 13, 'Comments': 2, 'Shares': 1},
+    {'Likes': 33, 'Comments': 8, 'Shares': 3},
+    {'Comments': 4, 'Shares': 2},
+    {'Comments': 1, 'Shares': 1},
+    {'Likes': 19, 'Comments': 3}
+]
 
+total_likes = 0
 
-# ---------------------------- UI SETUP ------------------------------- #
-window = Tk()
-window.title("Password Manager")
-window.config(padx=50, pady=50)
-canvas = Canvas(width=200, height=200)
-logo_img = PhotoImage(file="logo.png")
-canvas.create_image(100, 100, image=logo_img)
-canvas.grid(column=1, row=0)
-# Labels
-website_label = Label(text="Website:")
-website_label.grid(column=0, row=1)
-username_label = Label(text="Email/Username:")
-username_label.grid(column=0, row=2)
-password_label = Label(text="Password:")
-password_label.grid(column=0, row=3)
-# Entries
-website_entry = Entry(width=43)
-website_entry.grid(column=1, row=1, columnspan=2, sticky=W)
-website_entry.focus()  # Ready to type
-username_entry = Entry(width=43)
-username_entry.grid(column=1, row=2, columnspan=2, sticky=W)
-username_entry.insert(0, "angela@gmail.com")  # Fill with something as default
-password_entry = Entry(width=23)
-password_entry.grid(column=1, row=3, sticky=W)
-# Buttons
-generate_password_button = Button(text="Generate Password", command=generate_password)
-generate_password_button.grid(column=2, row=3, sticky=W)
-add_button = Button(text="Add", width=36, command=save)
-add_button.grid(column=1, row=4, columnspan=2, sticky=W)
-window.mainloop()
+for post in facebook_posts:
+    try:
+        total_likes = total_likes + post['Likes']
+    except KeyError:
+        pass  # OR total_likes += 0
+
+print(total_likes)
