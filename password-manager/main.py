@@ -1,69 +1,119 @@
-# # Day 30 - Intermediate - Errors, Exceptions and JSON Data Improving the Password
-# # 001 Day 30 Goals what you will make by the end of the day
-# # 002 Catching Exceptions The try catch except finally Pattern
-# # FileNotFond
+from tkinter import *
+from tkinter import messagebox
+from random import choice, randint, shuffle
+import pyperclip
+import json
 
-# try:
-#     file = open("a_file.txt")
-#     a_dictionary = {"key": "value"}
-#     print(a_dictionary["sdsafs"])  # after 2 times run the code then change "sdsafs" to "key" and run again
-# except FileNotFoundError:
-#     file = open("a_file.txt", "w")
-#     file.write("something")
-# except KeyError as error_message:
-#     print(f"The key {error_message} does not exist.")
-# else:  # When all of "try" section goes successfully then jump to this section.
-#     content = file.read()
-#     print(content)
-# finally:  # Run no matter what happened.
-#     file.close()
-#     print("File was closed.")
 
-# # 003 Raising your own Exceptions
+# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def generate_password():
+    password_entry.delete(0, END)
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+               'v',
+               'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+               'R',
+               'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+    password_letters = [choice(letters) for _ in range(randint(8, 10))]
+    password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
+    password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
+    password_list = password_letters + password_numbers + password_symbols
+    shuffle(password_list)
+    password = "".join(password_list)
+    # password = ""
+    # for char in password_list:
+    #     password += char
+    password_entry.insert(0, password)
+    pyperclip.copy(password)
 
-# height = float(input("Height: "))
-# weight = int(input("Weight: "))
-#
-# if height > 3:
-#     raise ValueError("Human Height should not be over 3 meters.")
-#
-# bmi = weight / height ** 2
-# print(bmi)
 
-# # 004 [Interactive Coding Exercise] IndexError Handling
+# ---------------------------- SAVE PASSWORD ------------------------------- #
+def save():
+    website = website_entry.get()
+    username = username_entry.get()
+    password = password_entry.get()
+    new_data = {
+        website: {
+            "username": username,
+            "password": password,
+        }
+    }
 
-# fruits = ["Apple", "Pear", "Orange"]
-#
-#
-# # TODO: Catch the exception and make sure the code runs without crashing.
-# def make_pie(index):
-#     try:
-#         fruit = fruits[index]
-#     except IndexError:
-#         print("Fruit pie")
-#     else:
-#         print(fruit + " pie")
-#
-#
-# make_pie(4)
+    if len(website) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Oops", message="Please don't leave any fields empty!")
+    else:
+        try:
+            with open("data.json", "r") as data_file:
+                # Reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            # Updating old data with new data
+            data.update(new_data)
 
-# # 005 [Interactive Coding Exercise] KeyError Handling
+            with open("data.json", "w") as data_file:
+                # Saving updated data
+                json.dump(data, data_file, indent=4)
+        finally:
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
 
-facebook_posts = [
-    {'Likes': 21, 'Comments': 2},
-    {'Likes': 13, 'Comments': 2, 'Shares': 1},
-    {'Likes': 33, 'Comments': 8, 'Shares': 3},
-    {'Comments': 4, 'Shares': 2},
-    {'Comments': 1, 'Shares': 1},
-    {'Likes': 19, 'Comments': 3}
-]
 
-total_likes = 0
-
-for post in facebook_posts:
+# -------------------------- FIND PASSWORD ----------------------------- #
+def find_password():
+    website = website_entry.get()
     try:
-        total_likes = total_likes + post['Likes']
-    except KeyError:
-        pass  # OR total_likes += 0
+        with open("data.json") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No data file found.")
+    else:
+        if website in data:
+            username = data[website]["username"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Username: {username}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No details for {website} exists.")
 
-print(total_likes)
+
+# ---------------------------- UI SETUP ------------------------------- #
+
+window = Tk()
+window.title("Password Manager")
+window.config(padx=50, pady=50)
+
+canvas = Canvas(height=200, width=200)
+logo_img = PhotoImage(file="logo.png")
+canvas.create_image(100, 100, image=logo_img)
+canvas.grid(row=0, column=1)
+
+# Labels
+website_label = Label(text="Website:")
+website_label.grid(row=1, column=0)
+username_label = Label(text="Email/Username:")
+username_label.grid(row=2, column=0)
+password_label = Label(text="Password:")
+password_label.grid(row=3, column=0)
+
+# Entries
+website_entry = Entry(width=21)
+website_entry.grid(row=1, column=1)
+website_entry.focus()  # Ready to type
+username_entry = Entry(width=35)
+username_entry.grid(row=2, column=1, columnspan=2)
+username_entry.insert(0, "angela@gmail.com")  # Fill with something as default
+password_entry = Entry(width=21)
+password_entry.grid(row=3, column=1)
+
+# Buttons
+search_button = Button(text="Search", width=13, command=find_password)
+search_button.grid(row=1, column=2)
+generate_password_button = Button(text="Generate Password", command=generate_password)
+generate_password_button.grid(row=3, column=2)
+add_button = Button(text="Add", width=36, command=save)
+add_button.grid(row=4, column=1, columnspan=2)
+
+window.mainloop()
