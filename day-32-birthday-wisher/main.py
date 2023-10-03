@@ -16,13 +16,39 @@
 #     )
 
 # # 004 Working with the datetime Module
+# import datetime as dt
+#
+# now = dt.datetime.now()
+# year = now.year
+# month = now.month
+# day_of_week = now.weekday()
+# print(day_of_week)
+#
+# date_of_birth = dt.datetime(year=1995, month=12, day=15, hour=4)
+# print(date_of_birth)
+
+# # 005 Challenge 1 - Send Motivational Quotes on Mondays via Email
+import smtplib
 import datetime as dt
+import random
+
+MY_EMAIL = "alintxxipython@gmail.com"
+MY_PASSWORD = "jnwxzrbemsckbxxu"
 
 now = dt.datetime.now()
-year = now.year
-month = now.month
-day_of_week = now.weekday()
-print(day_of_week)
+weekday = now.weekday()
+if weekday == 1:
+    with open("quotes.txt") as quote_file:
+        all_quotes = quote_file.readlines()
+        quote = random.choice(all_quotes)
 
-date_of_birth = dt.datetime(year=1995, month=12, day=15, hour=4)
-print(date_of_birth)
+    print(quote)
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(MY_EMAIL, MY_PASSWORD)
+        connection.sendmail(
+            from_addr=MY_EMAIL,
+            to_addrs=MY_EMAIL,
+            msg=f"subject:Monday Motivation\n\n{quote}"
+        )
+    
