@@ -5,9 +5,12 @@
 # # 002 What is API Authentication and Why Do We Need to Authenticate Ourselves
 # # 003 Using API Keys to Authenticate and Get the Weather from OpenWeatherMap
 import requests
+from twilio.rest import Client
 
 OWM_endpoint = "https://api.openweathermap.org/data/2.5/onecall"
 api_key = "a9784565a0531b0079173f475e46151e"
+account_sid = "AC123c80e05283e5e81a19328190cd0839"
+auth_token = "5eabfcf6f564b8c4331985dc3f634b47"
 
 weather_params = {
     "lat": 35.800286309182326,
@@ -31,8 +34,15 @@ for hour_data in weather_slice:
         will_rain = True
 
 if will_rain:
-    print("Bring an umbrella.")
-# print(weather_data["hourly"][0]["weather"][0]["id"])
+    # # 005 Sending SMS via the Twilio API
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body="It's going to rain today. Remember to bring an ☔.",
+        from_='+12673092068',
+        to='+989127374348'
+    )
+
+    print(message.status)
 
 
 
