@@ -12,12 +12,27 @@ api_key = "a9784565a0531b0079173f475e46151e"
 weather_params = {
     "lat": 35.800286309182326,
     "lon": 51.51265090920069,
+    "exclude": "current,minutely,daily",
     "appid": api_key,
 }
 
 
 response = requests.get(OWM_endpoint, params=weather_params)
 response.raise_for_status()
-data = response.json()
+weather_data = response.json()
+# # 004 Challenge - Check if it Will Rain in the Next 12 Hours
+weather_slice = weather_data["hourly"][:12]
 
-print(data)
+will_rain = False
+
+for hour_data in weather_slice:
+    condition_code = hour_data["weather"][0]["id"]
+    if int(condition_code) < 700:
+        will_rain = True
+
+if will_rain:
+    print("Bring an umbrella.")
+# print(weather_data["hourly"][0]["weather"][0]["id"])
+
+
+
