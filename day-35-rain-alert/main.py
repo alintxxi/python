@@ -10,9 +10,14 @@ from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
 
 OWM_endpoint = "https://api.openweathermap.org/data/2.5/onecall"
-api_key = "a9784565a0531b0079173f475e46151e"
+# # 007 Understanding Environment Variables and Hiding API Keys
+# api_key = "a9784565a0531b0079173f475e46151e"
+# export OWM_API_KEY=a9784565a0531b0079173f475e46151e
+api_key = os.environ.get("OWM_API_KEY")
 account_sid = "AC123c80e05283e5e81a19328190cd0839"
-auth_token = "5eabfcf6f564b8c4331985dc3f634b47"
+# auth_token = "5eabfcf6f564b8c4331985dc3f634b47"
+# export AUTH_TOKEN=5eabfcf6f564b8c4331985dc3f634b47
+auth_token = os.environ.get("AUTH_TOKEN")
 
 weather_params = {
     "lat": 35.800286309182326,
