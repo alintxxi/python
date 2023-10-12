@@ -4,9 +4,10 @@ STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-
+NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
 STOCK_API_KEY = "NG4P4ZCRA81D9QH2"
+NEWS_API_KEY = "1237fad93d7c4705a9e8c14e233fb92c"
 
 # # STEP 1: Use https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -28,16 +29,22 @@ yesterday_closing_price = float(yesterday_data["4. close"])
 day_before_yesterday_data = data_list[1]
 day_before_yesterday_closing_price = float(day_before_yesterday_data["4. close"])
 
-diff_percent = (yesterday_closing_price / day_before_yesterday_closing_price) - 1
-print(diff_percent)
+difference = abs(float(yesterday_closing_price) - float(day_before_yesterday_closing_price))
+diff_percent = (difference / float(yesterday_closing_price)) * 100
 
-if -0.05 >= diff_percent >= 0.05:
-    print("Get News")
-else:
-    print("be sleep")
+# # STEP 2: Use https://newsapi.org
+# Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME.
+if diff_percent >= 5:
+    news_params = {
+        "qInTitle": COMPANY_NAME,
+        "apiKey": NEWS_API_KEY,
+    }
 
-## STEP 2: Use https://newsapi.org
-# Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
+    news_response = requests.get(NEWS_ENDPOINT, params=news_params)
+    news_response.raise_for_status()
+    articles = news_response.json()["articles"]
+
+    three_articles = articles[:3]
 
 ## STEP 3: Use https://www.twilio.com
 # Send a seperate message with the percentage change and each article's title and description to your phone number. 
