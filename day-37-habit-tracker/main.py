@@ -8,6 +8,7 @@ import requests
 
 USERNAME = "alintxxi"
 TOKEN = "xbRAeQWndLP8nc2k6Kh61"
+GRAPH_ID = "graph1"
 
 pixela_endpoint = "https://pixe.la/v1/users"
 
@@ -27,7 +28,7 @@ user_params = {
 graph_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs"
 
 graph_config = {
-    "id": "graph1",
+    "id": GRAPH_ID,
     "name": "Cycling graph",
     "unit": "Km",
     "type": "float",
@@ -38,5 +39,18 @@ headers = {
     "X-USER-TOKEN": TOKEN,
 }
 
-response = requests.post(url=graph_endpoint, json=graph_config, headers=headers)
-print(response.text)
+# response = requests.post(url=graph_endpoint, json=graph_config, headers=headers)
+# print(response.text)
+# # {"message":"Success.","isSuccess":true}
+
+# # 004 Challenge Add a Pixel to the Habit Tracker using a Post Request
+pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
+
+pixel_data = {
+    "date": "20231013",
+    "quantity": "2.1",
+}
+
+# response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+# print(response.text)
+# # {"message":"Success.","isSuccess":true}
