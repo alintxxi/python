@@ -21,6 +21,7 @@ user_params = {
 
 }
 
+# # POST
 # response = requests.post(url=pixela_endpoint, json=user_params)
 # print(response.text)
 # # {"message":"Success. Let's visit https://pixe.la/@alintxxi , it is your profile page!","isSuccess":true}
@@ -47,13 +48,32 @@ headers = {
 # # 004 Challenge Add a Pixel to the Habit Tracker using a Post Request
 pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
 
-today = datetime(year=2023, month=10, day=12)
+today = datetime.now()
 
 pixel_data = {
+    # # 005 Autofilling today's date using strftime
     "date": today.strftime("%Y%m%d"),
-    "quantity": "2.1",
+    "quantity": input("How many kilometers did you cycle today? "),
 }
 
-response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
-print(response.text)
+# response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+# print(response.text)
+# # {"message":"Success.","isSuccess":true}
+
+# # 006 How to use HTTP Put and Delete Requests
+update_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime('%Y%m%d')}"
+
+new_pixel_data = {
+    "quantity": "9.1",
+}
+
+# # PUT
+# response = requests.put(url=update_endpoint, json=new_pixel_data, headers=headers)
+# print(response.text)
+# # {"message":"Success.","isSuccess":true}
+
+delete_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime('%Y%m%d')}"
+# # DELETE
+# response = requests.delete(url=update_endpoint, headers=headers)
+# print(response.text)
 # # {"message":"Success.","isSuccess":true}
