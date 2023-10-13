@@ -5,6 +5,7 @@
 # # 001 Day 37 Goals what you will make by the end of the day
 # # 002 HTTP Post Requests
 import requests
+from datetime import datetime
 
 USERNAME = "alintxxi"
 TOKEN = "xbRAeQWndLP8nc2k6Kh61"
@@ -46,11 +47,13 @@ headers = {
 # # 004 Challenge Add a Pixel to the Habit Tracker using a Post Request
 pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
 
+today = datetime(year=2023, month=10, day=12)
+
 pixel_data = {
-    "date": "20231013",
+    "date": today.strftime("%Y%m%d"),
     "quantity": "2.1",
 }
 
-# response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
-# print(response.text)
+response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+print(response.text)
 # # {"message":"Success.","isSuccess":true}
