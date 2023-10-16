@@ -35,3 +35,5 @@ parameters = {
 response = requests.post(exercise_endpoint, json=parameters, headers=headers)
 result = response.json()
 print(result)
+
+# # 004 Step 3 - Setup Your Google Sheet with Sheety
