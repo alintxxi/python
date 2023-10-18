@@ -5,7 +5,7 @@
 # # 001 Day 38 Goals what you will make by the end of the day
 import requests
 from datetime import datetime
-from requests.auth import HTTPBasicAuth
+import os
 
 # # 002 Step 1 - Setup API Credentials and Google Spreadsheet
 GENDER = "Male"
@@ -13,11 +13,12 @@ WEIGHT_KG = 68
 HEIGHT_CM = 180
 AGE = 36
 
-APP_ID = "960d287e"
-API_KEY = "aeab12446674a813729513acd7b32842"
+# # 007 Step 6 - Environment Variables
+APP_ID = os.environ["NT_APP_ID"]
+API_KEY = os.environ["NT_API_KEY"]
 
-USERNAME = "alintxxi"
-PASSWORD = "#hph,0nmTP01Ld]fJ]+gZ"
+USERNAME = os.environ["NT_USERNAME"]
+PASSWORD = os.environ["NT_PASSWORD"]
 
 # # 003 Step 2 - Get Exercise Stats with Natural Language Queries
 exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
@@ -42,7 +43,8 @@ result = response.json()
 
 # # 004 Step 3 - Setup Your Google Sheet with Sheety
 # # 005 Step 4 - Saving Data into Google Sheets
-sheet_endpoint = "https://api.sheety.co/c5b12b0d32f64a9250892842f01ce886/myWorkouts/workouts"
+sheet_endpoint = os.environ["SHEET_ENDPOINT"]
+
 
 today_date = datetime.now().strftime("%d/%m/%Y")
 now_time = datetime.now().strftime("%X")
