@@ -14,8 +14,8 @@ HEIGHT_CM = 180
 AGE = 36
 
 # # 007 Step 6 - Environment Variables
-APP_ID = os.environ["NT_APP_ID"]
-API_KEY = os.environ["NT_API_KEY"]
+APP_ID = os.environ.get("NT_APP_ID", "APP_ID does not exist")
+API_KEY = os.environ.get("NT_API_KEY", "APP_KEY does not exist")
 
 USERNAME = os.environ["NT_USERNAME"]
 PASSWORD = os.environ["NT_PASSWORD"]
