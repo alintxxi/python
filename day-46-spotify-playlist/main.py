@@ -14,3 +14,23 @@ song_names_spans = soup.select("li ul li h3")
 song_names = [song.getText().strip() for song in song_names_spans]
 
 print(song_names)
+
+# # 003 Step 2 - Authentication with Spotify
+Client_ID = "f7590b25b02b462ebe0fdcb9963a9c7e"
+Client_secret = "de32a02a87c14c8ba55e383ba1be8f4e"
+
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        scope="playlist-modify-private",
+        redirect_uri="https://example.com",
+        client_id=Client_ID,
+        client_secret=Client_secret,
+        show_dialog=True,
+        cache_path="token.txt"
+    )
+)
+# https://example.com/?code=AQDeF3QLCrjEByPykhi24FxykDSf6eUFRy2Wpz2-qzs5ca_o5JTGJljLQMTG75YQzmSHOSDV2raMdhFLuCTJq-pMMad1Z6g0phnE-TmLLizvSYGmyZZL0r1FC3ry0PSmYydkQ37_CBlYoNIuZGeZMr0hP50eaRqGtjLBSmLwX9jEeBh6Bi65Myn95gzBe9IN
+user_id = sp.current_user()["id"]
